@@ -1,5 +1,9 @@
 package com.example.demo;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class City {
     public String cityName;
     private boolean capital;
@@ -26,5 +30,8 @@ public class City {
         capitalName =  NewcapitalName;
     }
 
-
 }
+
+
+
+

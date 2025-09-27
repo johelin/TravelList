@@ -47,6 +47,11 @@ public class CountryLookup {
         //get city ingormation of that country
         // get type of city
         //get is capital
+
+        String specifiedCountry = countryMap.toString();
+       
+        specifiedCountry = countryMap.values(<id>);
+
         HashMap<String, String> capitals = new HashMap<>();
         City citydata = new City(); 
         if(citydata.isCapital()){
@@ -58,7 +63,7 @@ public class CountryLookup {
                 return citydata.getCapitalName();
             }
 
-            capitals.put("Country", CountryCity); // Country coming from the input of this call
+            capitals.put("Country", CountryConnect.countryConnectcities(specifiedCountry, CountryConnect.cities)); // Country coming from the input of this call
         }
         return countryMap.get(citydata.getCityName()); // get city name
 

@@ -20,7 +20,7 @@ public class CountryController {
         CountryLookup lookup = new CountryLookup(); // Create instance
         return lookup.DestinationAbreviation();
 }
-/** 
+
 //Get country based on id which is the name
 @GetMapping(value = "/countries/{id}")          
 public String getCountry(@RequestBody Country country) {
@@ -29,7 +29,7 @@ public String getCountry(@RequestBody Country country) {
     return lookup.specifiedCountry();
      // Create instance
     
-}*/
+}
 }
 
 //see code how xml and jason responses are handeled.
