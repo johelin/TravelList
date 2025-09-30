@@ -4,10 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Country {
-
-    
-     public static void main(String... args) {
-    SpringApplication.run(Country.class, args);
-  }
+public class TravelPlansApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(TravelPlansApplication.class, args);
+    }
 }

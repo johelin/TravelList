@@ -1,38 +1,38 @@
 package com.example.demo.Countries;
 
+import com.example.demo.Cities.Cities;
+import com.example.demo.JPA.CitiesRepository;
+import com.example.demo.JPA.CountriesRepository;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.*;
+import java.util.List;
 import java.util.HashMap;
 
-import com.example.demo.Countries.Database.CountriesDatabase;
+@Entity
+@Table(name = "countries")
 
 public class Countries {
 
+    @Id
+    private String country; // Country name as primary key
 
+    private String abbreviation;
 
-    private static HashMap<String, String> countryMap = CountriesDatabase.loadCountries();
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // this is what we saw in class for data structures
+    @JsonManagedReference
+    private List<Cities> cities;
 
-    public String addCountries(String Newcountry, String Newabbriviation){
-        String country = countryMap.put(Newcountry, Newabbriviation); //sets the values
-        CountriesDatabase.saveCountry(Newcountry, Newabbriviation); // Save to D
-        System.out.println("Your country has been added: "+getCountries());
-        return country;
-     
+        // Getters & setters
+        public String getCountry() { return country; }
+        public void setCountry(String country) { this.country = country; }
+    
+        public String getAbbreviation() { return abbreviation; }
+        public void setAbbreviation(String abbreviation) { this.abbreviation = abbreviation; }
+    
+        public List<Cities> getCities() { return cities; }
+        public void setCities(List<Cities> cities) { this.cities = cities; }
+
+  
     }
-
-
-public String getCountries(){
-    return countryMap.keySet().toString(); //gets all keys of the map
-}
-
-public String getAbbriviation(){
-    return countryMap.values().toString(); //gets all values of the map
-}
-
-public String changeAbbreviation(String country,String newAbbreviation){
-return countryMap.replace(country, newAbbreviation);
-}
-public static void main(String[] args) {
-
-}
-}
-
 
