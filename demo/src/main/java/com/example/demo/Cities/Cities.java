@@ -12,10 +12,16 @@ public class Cities {
     @Id
     private String cityName;
 
+    private String capitalName;
+
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "country") // foreign key column
     private Countries country;
+
+
+    @Column(name = "capital") 
+    private Boolean capital;
 
     public Cities() {}
 
@@ -30,6 +36,20 @@ public class Cities {
     public String getCityName() {
         return cityName;
     }
+
+    public Boolean getCapital() {
+        return capital;
+    }
+    
+
+ public void setCapitalName(String capitalName){
+        this.capitalName = capitalName;
+    }
+
+    public void setCapital(Boolean capital){
+        this.capital = capital;
+    }
+
 
     public void setCityName(String cityName) {
         this.cityName = cityName;

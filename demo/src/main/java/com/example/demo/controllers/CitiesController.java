@@ -8,7 +8,10 @@ import com.example.demo.JPA.CountriesRepository;
 
 import jakarta.persistence.Id;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 
 @RestController
@@ -47,9 +50,9 @@ public class CitiesController {
         return country.getCities();
     }
 
-    @PostMapping("/city")
-    public Cities addCity(@RequestParam String countryName, @RequestParam String cityName) {
-        // Lookup country by ID
+    @PostMapping(value = "/city", produces="application/xml")
+    public Cities addCity(@RequestParam String countryName, @RequestParam String cityName, boolean isCapital) {
+
         Countries country = countriesRepository.findById(countryName)
                 .orElseThrow(() -> new RuntimeException("Country not found"));
     
@@ -57,6 +60,15 @@ public class CitiesController {
         Cities city = new Cities();
         city.setCityName(cityName);
         city.setCountry(country);
+
+        city.setCapital(isCapital);
+
+        // Set capital name if this city is now the capital
+        if (isCapital) {
+            city.setCapitalName(cityName);
+        } else {
+            city.setCapitalName(null);
+        }
     
         System.out.println(cityName + " was added to " + countryName + " as a city.");
     
@@ -66,27 +78,112 @@ public class CitiesController {
 
     @PutMapping("/city")
     public Cities updateCity(@RequestParam String countryName, @RequestParam String cityName) {
+        Countries country = countriesRepository.findById(countryName)
+                .orElseThrow(() -> new RuntimeException("Country not found"));
+    
+        Cities city = citiesRepository.findById(cityName)
+                .orElseThrow(() -> new RuntimeException("City not found"));
+    
+        // Set the new country reference
+        city.setCountry(country);
+    
+        citiesRepository.save(city);
+    
+        System.out.println(city + " now belongs to " + country);
+    
+        return city;
+    }
+
+    @PostMapping("/city/capital")
+    public String setCapitalOfCity(@RequestParam String countryName, @RequestParam String cityName, boolean isCapital) {
+
+        Countries country = countriesRepository.findById(countryName)
+        .orElseThrow(() -> new RuntimeException("Country not found"));
+
+        Cities city = citiesRepository.findById(cityName)
+        .orElseThrow(() -> new RuntimeException("City not found"));
+        
+        //Cities newCity = new Cities();
+
+        city.setCountry(country);
+
+
+
+    city.setCapital(isCapital);
+
+    // Set capital name if this city is now the capital
+    if (isCapital)  {
+        city.setCapitalName(cityName);
+    } else {
+        city.setCapitalName(null);
+    }
+
+
+        citiesRepository.save(city);
+        countriesRepository.save(country);
+
+        return "The capital inforamtion has been set!";
+    }
+    
+
+
+
+    @PutMapping("/city/capital")
+    public Cities updateCapital(@RequestParam String countryName, @RequestParam String cityName, @RequestParam boolean isCapital) {
         // Lookup country by ID
         Countries country = countriesRepository.findById(countryName)
                 .orElseThrow(() -> new RuntimeException("Country not found"));
 
-                if(citiesRepository.existsById(cityName)){
-                    throw new RuntimeException("City '" + cityName + "' already exists");
-                }
-                Cities newCity = new Cities();
-                String CurrentCity = newCity.getCityName();
-                newCity.setCityName(cityName);
+                Cities city = citiesRepository.findById(cityName)
+                .orElseThrow(() -> new RuntimeException("City not found"));
 
 
-        System.out.println("The current City is " + CurrentCity);
-        newCity.setCityName(cityName);
-        country.setCountry(countryName);
-        citiesRepository.save(newCity);
+        if(city.getCapital() != null&& city.getCapital()==false ){
+             city.setCapital(isCapital);
+             citiesRepository.save(city);
+             System.out.println(city + " was removed as the capital in " + country);
+        }
+
+        city.setCapital(isCapital);
+
+
+        citiesRepository.save(city);
         countriesRepository.save(country);
+        System.out.println(city + " is the capital of " + country);
     
-    
-        System.out.println(newCity + " was added to " + country + " as a city.");
+        
         // Save the city and return
-        return newCity;
+        return city;
     }
+
+
+@GetMapping({"/city/capital/", "/city/capital/"})
+    public Map<String, Boolean> getCapitalofCountry(@RequestParam String countryName) { ///countries/city/capital?countryName=Canada&&isCapital=true
+    Countries country = countriesRepository.findById(countryName)
+    .orElseThrow(() -> new RuntimeException("Country not found"));
+    List<Cities> cities = citiesRepository.findByCountry(country);
+    
+        Map<String, Boolean> response = new HashMap<>();
+        for (Cities city : cities) {
+            if (city.getCapital() != null && city.getCapital()) {
+                response.put(city.getCityName(), true);
+            } else {
+                response.put(city.getCityName(), false);
+            }
+        }
+
+return response;
 }
+
+@DeleteMapping({"/city","/city"})
+public String deleteCity(@RequestParam String countryName, @RequestParam String cityName) {
+    Countries country = countriesRepository.findById(countryName).orElseThrow(() -> new RuntimeException("Country not found"));
+    Cities city = citiesRepository.findById(cityName)
+    .orElseThrow(() -> new RuntimeException("City not found"));
+
+    citiesRepository.deleteById(cityName);
+
+    return "City " + cityName+ " has been deleted";
+}}
+
+//get all cities of a country with the respective output of if capital or not
