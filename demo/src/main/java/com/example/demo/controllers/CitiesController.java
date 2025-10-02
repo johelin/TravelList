@@ -105,7 +105,7 @@ public class CitiesController {
         
         //Cities newCity = new Cities();
 
-        city.setCountry(country);
+        
 
 
 
