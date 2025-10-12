@@ -4,15 +4,23 @@ import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Service.LoginService;
 
 import jakarta.persistence.Id;
+import jakarta.websocket.server.PathParam;
+
 import com.example.demo.JPA.LoginRepository;
 import com.example.demo.Login.Login; // Ensure this path matches the actual location of the Login class
+import com.example.demo.Login.Login.SecurityQuestion;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,6 +75,22 @@ public Login createPassword(
         @RequestParam String newPassword) throws Exception {
     return loginService.createPassword(newPassword,username);
 }
+
+@PutMapping("/username/{username}/securityQuestion")
+public Login setSecurityResponse(
+        @PathVariable("username") String username,
+        @RequestParam("securityQuestion") Login.SecurityQuestion securityQuestion,
+        @RequestParam("userResponse") String userResponse) {
+
+    return loginService.setSecurityResponse(securityQuestion, userResponse, username);
+}
+
+@GetMapping("/username/{username}/securityQuestion")
+public Map<String, String> getSecurityQuestion(@PathVariable String username) {
+    return loginService.getSecurityQuestion(username);
+}
+
+
 
 
 

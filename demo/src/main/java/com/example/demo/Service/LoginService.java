@@ -1,5 +1,9 @@
 package com.example.demo.Service;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.Cities.Cities;
 import com.example.demo.JPA.LoginRepository;
 import com.example.demo.Login.Login;
+import com.example.demo.Login.Login.SecurityQuestion;
 
 @Service
 public class LoginService{
@@ -97,6 +102,37 @@ User.setPassword(newPassword); // only need to save the password as the user wil
 
 return loginRepository.save(User);
 }
+
+public Login setSecurityResponse(Login.SecurityQuestion securityQuestion, String userResponse, String username) {
+    Login User = loginRepository.findById(username)
+    .orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (securityQuestion != null && userResponse != null) {
+
+        User.setSecurityQuestion(securityQuestion);
+        User.setUserResponse(userResponse);
+        loginRepository.save(User); // save updated entity
+    }else{
+        throw new IllegalArgumentException("The question could not be set");
+    }
+
+    return User;
+}
+
+public Map<String, String> getSecurityQuestion(String username) {
+    Login User = loginRepository.findById(username)
+    .orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (User.getSecurityQuestion() == null || User.getUserResponse() == null) {
+        throw new IllegalArgumentException("The security question has not been set for this user.");
+    }
+    HashMap<String, String> secMap = new LinkedHashMap<>();
+    secMap.put("Security Question", User.getSecurityQuestion().getQuestionText() );
+    secMap.put("User Response", User.getUserResponse());
+    
+    return secMap;
+}
+
 
 
 
