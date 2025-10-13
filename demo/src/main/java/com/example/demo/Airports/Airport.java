@@ -47,7 +47,7 @@ public class Airport{
 
     public void setAirportName(String airportName) { this.airportName = airportName; }
 
-    public Cities getCityName() { return city; }
+    public Cities getCity() { return city; }
 
     public void setCity(Cities city) {
         this.city = city;

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+
 @RestController
 @RequestMapping("/airport")
 public class AirportController {
@@ -29,7 +30,7 @@ public List<AirportDTO> getAllAirports() {
 
     // map entity -> DTO
     return airports.stream()
-            .map(a -> new AirportDTO(a.getAirportCode(), a.getAirportName(), a.getCityName() != null ? a.getCityName().getCityName() : null  // extract city name
+            .map(a -> new AirportDTO(a.getAirportCode(), a.getAirportName(), a.getCity() != null ? a.getCity().getCityName() : null  // extract city name
             ))
             .collect(Collectors.toList());}
 
@@ -42,5 +43,13 @@ public AirportDTO postNewAirport(@PathVariable String airportName, @PathVariable
 @GetMapping("/city/{city}")
     public List<AirportDTO> getSpecificAirport(@PathVariable String city) {
     return airportService.getSpecificAirport(city);
+}
+
+
+@PutMapping("/city/{cityName}/airportName/{airportName}/airCode/{airportCode}")
+public List<AirportDTO> editCurrentAirport(@PathVariable String cityName, @PathVariable String airportName, @PathVariable String airportCode) {
+
+    
+    return airportService.editCurrentAirport(cityName, airportName, airportCode);
 }
     }
