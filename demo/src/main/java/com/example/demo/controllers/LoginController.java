@@ -76,7 +76,7 @@ public Login createPassword(
     return loginService.createPassword(newPassword,username);
 }
 
-@PutMapping("/username/{username}/securityQuestion")
+@PostMapping("/username/{username}/securityQuestion")
 public Login setSecurityResponse(
         @PathVariable("username") String username,
         @RequestParam("securityQuestion") Login.SecurityQuestion securityQuestion,

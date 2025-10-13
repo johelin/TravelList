@@ -1,5 +1,9 @@
 package com.example.demo.Cities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.demo.Airports.Airport;
 import com.example.demo.Countries.Countries;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -22,6 +26,17 @@ public class Cities {
 
     @Column(name = "capital") 
     private Boolean capital;
+
+@OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
+private List<Airport> airports = new ArrayList<>();
+
+public List<Airport> getAirports() {
+    return airports;
+}
+
+public void setAirports(List<Airport> airports) {
+    this.airports = airports;
+}
 
     public Cities() {}
 

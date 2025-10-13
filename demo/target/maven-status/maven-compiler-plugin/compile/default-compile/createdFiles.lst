@@ -6,7 +6,9 @@ com/example/demo/controllers/LoginController.class
 com/example/demo/controllers/CitiesController.class
 com/example/demo/TravelPlansApplication.class
 com/example/demo/Login/Login.class
+com/example/demo/Service/AirportService.class
 com/example/demo/JPA/AirportRepository.class
+com/example/demo/DTO/AirportDTO.class
 com/example/demo/Cities/Cities.class
 com/example/demo/Service/LoginService.class
 com/example/demo/controllers/CountryController.class
