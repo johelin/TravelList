@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.management.RuntimeErrorException;
@@ -20,13 +21,14 @@ private final LoginRepository loginRepository;
 
 
 @Autowired //creates dependency
-
 public LoginService(LoginRepository loginRepository){
     this.loginRepository = loginRepository;
 }
 
 
-
+public List<String> getAllSecurityQuestions() {
+    return loginRepository.findAllSecurityQuestions();
+}
 
 //methods
 public Login updateUsername(String newUsername, String username) throws Exception{

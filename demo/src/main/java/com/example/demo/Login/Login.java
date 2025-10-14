@@ -1,6 +1,11 @@
 package com.example.demo.Login;
 
 import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.example.demo.Countries.Countries;
 import com.example.demo.JPA.CitiesRepository;
@@ -73,6 +78,7 @@ public void setSecurityQuestion(SecurityQuestion securityQuestion){
 public void setUserResponse(String userResponse){
     this.userResponse = userResponse;
 }
+
 
 public enum SecurityQuestion {
     HOW_MANY_PETS("How many pets have you had in your life?"),
