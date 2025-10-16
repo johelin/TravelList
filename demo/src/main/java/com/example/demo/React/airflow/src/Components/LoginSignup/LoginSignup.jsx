@@ -38,14 +38,15 @@ const LoginSignup = () => {
                     <img src={password_icon} alt="" width={24} height={24}/>
                     <input type="password" placeholder="password"/>
                 </div>
-                <div className="input">
-                    <img src={question_icon} alt="" width={24} height={24}/>
-                    <select>
+                <select>
                         <option className="inputSecurityQuestion" value="">Select a question</option>
                         {questions.map((q, index) => (
                             <option key={index} value={q}>{q.replaceAll('_', ' ')}</option>
                         ))}
                     </select>
+                <div className="input">
+                    <img src={question_icon} alt="" width={24} height={24}/>
+                    <input type="Answer" placeholder="Answer"/>
                 </div>
             </div>
 
